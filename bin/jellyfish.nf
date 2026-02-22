@@ -1,20 +1,19 @@
 process count_kmers {
-  input: 
+  shell '/bin/bash', '-euo', 'pipefail'
+
+  input:
   path reads
 
-  output: 
-  path *.jf, emit: jellyfish_binary
+  output:
+  path "*.jf", emit: jellyfish_binary
 
   script:
-  if (params.canonical == true) {
-    """
-    jellyfish count <(pigz -dc ${reads}) -C -m ${params.ksize} -s ${params.memory} -t ${params.threads} -o ${params.id}.${params.ksize}.jf
-    """
-  } else {
-    """
-    jellyfish count <(pigz -dc ${reads}) -m ${params.ksize} -s ${params.memory} -t ${params.threads} -o ${params.id}.${params.ksize}.noncanonical.jf
-    """
-  }
+  def canonical = params.canonical ? "-C" : ""
+  def outname   = params.canonical ? "${params.id}.${params.ksize}.jf" : "${params.id}.${params.ksize}.noncanonical.jf"
+
+  """
+  pigz -dc ${reads} | jellyfish count /dev/stdin ${canonical} -m ${params.ksize} -s ${params.memory} -t ${params.threads} -o ${outname}
+  """
 }
 
 
@@ -24,11 +23,10 @@ process kmer_db_to_histogram_counts {
   publishDir '.', mode: 'copy'
 
   output:
-  path *.histo, emit: histogram_counts
+  path "*.histo", emit: histogram_counts
 
   script:
   """
   jellyfish histo ${jellyfish_db} > ${params.id}.${params.ksize}.histo
   """
 }
-
