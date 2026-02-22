@@ -11,6 +11,6 @@ process plot_kmer_spectra {
   
   script:
   """
-  genomescope.R -i ${histogram_counts} -o genomescope_out -k ${params.ksize}
+  ${params.genomescope_dir}/genomescope.R -i ${histogram_counts} -o genomescope_out -k ${params.ksize}
   """
 }
