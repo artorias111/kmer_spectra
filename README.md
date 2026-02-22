@@ -7,7 +7,7 @@ Nextflow pipeline for k-mer counting (Jellyfish) and genome spectrum fitting (Ge
 Run directly from GitHub:
 
 ```bash
-nextflow run artorias111/kmer_spectra --reads /path/to/dir/with/fastq.gz
+nextflow run artorias111/kmer_spectra --reads /path/to/dir/with/fastq.gz --id sequence_id
 ```
 
 This uses the default parameters. The pipeline will pick up all `*.fastq.gz` files in the given directory.
