@@ -6,8 +6,7 @@ include { plot_kmer_spectra } from './bin/genomescope.nf'
 
 
 workflow {
-  // Input: directory path; glob all .fastq.gz files in it
-  reads = Channel.fromPath("${params.reads}/*.fastq.gz", checkIfExists: true)
+  reads = Channel.fromPath("${params.reads}/*.fastq.gz", checkIfExists: true).collect()
 
   count_kmers(reads)
   kmer_db_to_histogram_counts(count_kmers.out.jellyfish_binary)

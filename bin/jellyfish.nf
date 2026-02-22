@@ -12,7 +12,7 @@ process count_kmers {
   def outname   = params.canonical ? "${params.id}.${params.ksize}.jf" : "${params.id}.${params.ksize}.noncanonical.jf"
 
   """
-  pigz -dc ${reads} | jellyfish count /dev/stdin ${canonical} -m ${params.ksize} -s ${params.memory} -t ${params.threads} -o ${outname}
+  pigz -dc *.fastq.gz | jellyfish count /dev/stdin ${canonical} -m ${params.ksize} -s ${params.memory} -t ${params.threads} -o ${outname}
   """
 }
 
