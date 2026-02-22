@@ -6,14 +6,15 @@ process count_kmers {
   path *.jf, emit: jellyfish_binary
 
   script:
-  if (params.canonical == true)
+  if (params.canonical == true) {
     """
     jellyfish count <(pigz -dc ${reads}) -C -m ${params.ksize} -s ${params.memory} -t ${params.threads} -o ${params.id}.${params.ksize}.jf
     """
-  else
+  } else {
     """
     jellyfish count <(pigz -dc ${reads}) -m ${params.ksize} -s ${params.memory} -t ${params.threads} -o ${params.id}.${params.ksize}.noncanonical.jf
     """
+  }
 }
 
 
