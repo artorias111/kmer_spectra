@@ -2,3 +2,4 @@ results
 work
 .nextflow.*
 .DS_Store
+.nextflow*
